@@ -1,0 +1,14 @@
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  nav {
+    display: none !important;
+  }
+  .container {
+    padding: 0 !important;
+  }
+  .bg-gray-100 {
+    background: none !important;
+  }
+}
