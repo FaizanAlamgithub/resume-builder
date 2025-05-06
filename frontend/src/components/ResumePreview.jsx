@@ -207,9 +207,11 @@
 
 // export default ResumePreview;
 
+
 import { useRef, useState } from "react";
 import axios from "axios";
-import html2pdf from "html2pdf.js";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 import Template1 from "../templates/Template1";
 import Template2 from "../templates/Template2";
 import Template3 from "../templates/Template3";
@@ -313,9 +315,7 @@ function ResumePreview({
           },
           objective: "",
           education: [{ institution: "", degree: "", year: "", cgpa: "" }],
-          experience: [
-            { company: "", role: "", duration: "", description: "" },
-          ],
+          experience: [{ company: "", role: "", duration: "", description: "" }],
           skills: [""],
           projects: [],
           languages: [""],
@@ -360,52 +360,66 @@ function ResumePreview({
   };
 
   const downloadPDF = () => {
-    const resumeContent = resumeRef.current.innerHTML;
-    const fileName = formData.name
-      ? `${formData.name.replace(/\s+/g, "_")}_Resume.pdf`
-      : "resume.pdf";
+    const input = resumeRef.current;
 
-    // Create a temporary container for PDF rendering
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = `
-      <html>
-        <head>
-          <title>Resume PDF</title>
-          <script src="https://cdn.tailwindcss.com"></script>
-          <style>
-            body { font-family: Arial, sans-serif; margin: 0; }
-            @page { size: A4; margin: 0; }
-            .no-print { display: none; }
-            .resume-container { width: 210mm; min-height: 297mm; margin: 0; padding: 0; }
-          </style>
-        </head>
-        <body>
-          <div class="resume-container">
-            ${resumeContent}
-          </div>
-        </body>
-      </html>
+    // Apply temporary styles to ensure A4 sizing without margins or padding
+    const originalStyle = input.style.cssText;
+    input.style.cssText = `
+      ${originalStyle}
+      width: 210mm;
+      min-height: 297mm;
+      padding: 0;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: white;
+      box-sizing: border-box;
     `;
 
-    // Optimize for mobile
-    const opt = {
-      margin: 0,
-      filename: fileName,
-      image: { type: "png", quality: 0.98 },
-      html2canvas: {
-        scale: /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 2 : 3,
-        useCORS: true,
-      },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-    };
+    // Optimize scale for mobile and desktop
+    const scale = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 2 : 3;
 
-    // Generate PDF
-    html2pdf()
-      .from(tempDiv)
-      .set(opt)
-      .toPdf()
-      .get("pdf")
-      .then((pdf) => {
+    html2canvas(input, {
+      scale: scale,
+      useCORS: true,
+      windowWidth: 794, // Approximate A4 width in pixels at 96 DPI
+      windowHeight: 1123, // Approximate A4 height in pixels at 96 DPI
+      scrollX: 0,
+      scrollY: 0,
+    })
+      .then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF({
+          orientation: "portrait",
+          unit: "mm",
+          format: "a4",
+        });
+
+        const pageWidth = 210; // A4 width in mm
+        const pageHeight = 297; // A4 height in mm
+        const imgWidth = pageWidth; // Full width, no margins
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        // Add first page without margins
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        // Add additional pages if needed
+        while (heightLeft >= 0) {
+          pdf.addPage();
+          position = heightLeft - imgHeight;
+          pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+
+        // Set font to match template
+        pdf.setFont("helvetica", "normal");
+
+        const fileName = formData.name
+          ? `${formData.name.replace(/\s+/g, "_")}_Resume.pdf`
+          : "resume.pdf";
+
         // Handle mobile download (iOS Safari fallback)
         if (/iPhone|iPad/i.test(navigator.userAgent)) {
           const pdfBlob = pdf.output("blob");
@@ -418,10 +432,15 @@ function ResumePreview({
         } else {
           pdf.save(fileName);
         }
+
+        // Restore original styles
+        input.style.cssText = originalStyle;
       })
       .catch((error) => {
         console.error("Error generating PDF:", error);
         alert("Failed to generate PDF.");
+        // Restore original styles in case of error
+        input.style.cssText = originalStyle;
       });
   };
 
@@ -474,7 +493,7 @@ function ResumePreview({
         <button
           type="button"
           onClick={onPrev}
-          className="bg-blue-600 text-white rounded-md px-4 py-2 text-sm md:text-base hover:bg-blue-700"
+          className="bg-blue-600 text-white rounded-md px-4 py-2 text-sm md:text-base hover:bg-green-700"
         >
           Prev
         </button>
