@@ -132,7 +132,10 @@ function Template1({ formData }) {
   return (
     <div className="flex min-h-[297mm] w-[210mm] shadow-lg">
       {/* Sidebar */}
-      <div className="w-1/3 p-6 flex flex-col justify-between bg-[#163853] text-white">
+      <div
+        className="w-1/3 p-6 flex flex-col justify-between text-white"
+        style={{ backgroundColor: "#163853" }}
+      >
         <div>
           {formData.name && (
             <h2 className="text-xl font-bold mb-4">{formData.name}</h2>

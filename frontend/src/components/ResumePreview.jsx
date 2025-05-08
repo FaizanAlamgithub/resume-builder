@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
 import axios from "axios";
+import html2pdf from "html2pdf.js";
+
 import Template1 from "../templates/Template1";
 import Template2 from "../templates/Template2";
 import Template3 from "../templates/Template3";
@@ -118,6 +120,19 @@ function ResumePreview({
     }
   };
 
+  const downloadPDF = () => {
+    const element = resumeRef.current;
+    const opt = {
+      margin: 0,
+      filename: "resume.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+    };
+
+    html2pdf().set(opt).from(element).save();
+  };
+
   const printResume = () => {
     const resumeContent = resumeRef.current.innerHTML;
     const printWindow = window.open("", "_blank");
@@ -189,6 +204,13 @@ function ResumePreview({
         >
           Print Resume
         </button>
+        <button
+          className="bg-purple-500 text-white rounded-md px-4 py-2 text-sm md:text-base"
+          onClick={downloadPDF}
+        >
+          Download PDF
+        </button>
+
         <button
           type="button"
           onClick={onPrev}

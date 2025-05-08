@@ -2,8 +2,14 @@ import React from "react";
 
 function Template2({ formData }) {
   return (
-    <div className="min-h-[297mm] w-[210mm] bg-white p-8 shadow-lg">
-      <div className="text-center border-b-4 border-blue-600 pb-4 mb-6">
+    <div
+      className="min-h-[297mm] w-[210mm] p-8 shadow-lg"
+      style={{ backgroundColor: "white" }}
+    >
+      <div
+        className="text-center pb-4 mb-6"
+        style={{ borderBottom: "4px solid #2563EB" }}
+      >
         <h2 className="text-3xl font-bold">{formData.name}</h2>
         {(formData.email ||
           formData.phone ||
@@ -20,7 +26,10 @@ function Template2({ formData }) {
       </div>
       {formData.objective && (
         <div className="mb-6">
-          <h3 className="text-xl font-semibold mb-2 border-l-4 border-blue-600 pl-2">
+          <h3
+            className="text-xl font-semibold mb-2 pl-2"
+            style={{ borderLeft: "4px solid #2563EB" }}
+          >
             Objective
           </h3>
           <p>{formData.objective}</p>
@@ -28,7 +37,10 @@ function Template2({ formData }) {
       )}
       {formData.education.length > 0 && (
         <div className="mb-6">
-          <h3 className="text-xl font-semibold mb-2 border-l-4 border-blue-600 pl-2">
+          <h3
+            className="text-xl font-semibold mb-2 pl-2"
+            style={{ borderLeft: "4px solid #2563EB" }}
+          >
             Education
           </h3>
           {formData.education.map((edu, index) => (
@@ -43,7 +55,10 @@ function Template2({ formData }) {
       )}
       {formData.experience.length > 0 && (
         <div className="mb-6">
-          <h3 className="text-xl font-semibold mb-2 border-l-4 border-blue-600 pl-2">
+          <h3
+            className="text-xl font-semibold mb-2 pl-2"
+            style={{ borderLeft: "4px solid #2563EB" }}
+          >
             Work Experience
           </h3>
           {formData.experience.map((exp, index) => (
@@ -58,7 +73,10 @@ function Template2({ formData }) {
       )}
       {formData.projects && formData.projects.some((p) => p.name?.trim()) && (
         <div className="mb-6">
-          <h3 className="text-xl font-semibold mb-2 border-l-4 border-blue-600 pl-2">
+          <h3
+            className="text-xl font-semibold mb-2 pl-2"
+            style={{ borderLeft: "4px solid #2563EB" }}
+          >
             Projects
           </h3>
           {formData.projects.map((project, index) => (
@@ -75,7 +93,10 @@ function Template2({ formData }) {
         <div className="flex justify-between">
           {formData.skills.length > 0 && (
             <div className="w-1/2 pr-4">
-              <h3 className="text-xl font-semibold mb-2 border-l-4 border-blue-600 pl-2">
+              <h3
+                className="text-xl font-semibold mb-2 pl-2"
+                style={{ borderLeft: "4px solid #2563EB" }}
+              >
                 Skills
               </h3>
               <ul className="list-disc pl-5">
@@ -87,7 +108,10 @@ function Template2({ formData }) {
           )}
           {formData.languages.length > 0 && (
             <div className="w-1/2 pl-4">
-              <h3 className="text-xl font-semibold mb-2 border-l-4 border-blue-600 pl-2">
+              <h3
+                className="text-xl font-semibold mb-2 pl-2"
+                style={{ borderLeft: "4px solid #2563EB" }}
+              >
                 Languages
               </h3>
               <ul className="list-disc pl-5">
@@ -104,7 +128,10 @@ function Template2({ formData }) {
         formData.nationality ||
         formData.passport?.number) && (
         <div className="mt-6">
-          <h3 className="text-xl font-semibold mb-2 border-l-4 border-blue-600 pl-2">
+          <h3
+            className="text-xl font-semibold mb-2 pl-2"
+            style={{ borderLeft: "4px solid #2563EB" }}
+          >
             Personal Details
           </h3>
           {formData.dateOfBirth && <p>Date of Birth: {formData.dateOfBirth}</p>}
