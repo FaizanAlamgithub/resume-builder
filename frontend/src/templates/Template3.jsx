@@ -2,8 +2,11 @@ import React from "react";
 
 function Template3({ formData }) {
   return (
-    <div className="min-h-[297mm] w-[210mm] bg-white p-6 shadow-lg flex">
-      <div className="w-1/2 pr-4 border-r border-gray-200">
+    <div
+      className="min-h-[297mm] w-[210mm] p-6 shadow-lg flex"
+      style={{ background: "white" }}
+    >
+      <div className="w-1/2 pr-4 border-r" style={{ borderColor: "#edf2f7" }}>
         <h2 className="text-2xl font-bold mb-4">{formData.name}</h2>
         {(formData.email ||
           formData.phone ||

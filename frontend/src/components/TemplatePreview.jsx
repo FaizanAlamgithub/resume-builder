@@ -15,6 +15,7 @@ function TemplatePreview({ setSelectedTemplate, navigate, onPrev }) {
 
   const handleSelect = (templateId) => {
     setSelectedTemplate(templateId);
+    localStorage.setItem("selectedTemplate", templateId);
     navigate("/preview");
   };
 
@@ -44,16 +45,6 @@ function TemplatePreview({ setSelectedTemplate, navigate, onPrev }) {
               alt={`${template.name} preview`}
               className=" object-cover w-[237px] h-[350px]"
             />
-            <div className="p-4">
-              {/* <h3 className="text-xl font-semibold mb-2">{template.name}</h3>
-              <p className="text-gray-600 mb-4">{template.description}</p> */}
-              <button
-                className="w-full bg-blue-600 text-white rounded-md py-2 hover:bg-blue-700"
-                onClick={() => handleSelect(template.id)}
-              >
-                Select Template
-              </button>
-            </div>
           </div>
         ))}
       </div>

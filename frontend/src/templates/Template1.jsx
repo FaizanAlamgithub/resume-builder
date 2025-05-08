@@ -226,19 +226,6 @@ function Template1({ formData }) {
             ))}
           </div>
         )}
-        {/* {formData.projects.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-2">Projects</h3>
-            {formData.projects.map((project, index) => (
-              <div key={index} className="mb-4">
-                <p className="font-medium">{project.name}</p>
-                <p>Technologies: {project.technologies}</p>
-                <p>Date: {project.date}</p>
-                <p>{project.description}</p>
-              </div>
-            ))}
-          </div>
-        )} */}
         {formData.projects && formData.projects.some((p) => p.name?.trim()) && (
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-2">Projects</h3>
