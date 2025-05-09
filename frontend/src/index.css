@@ -2,6 +2,6 @@
 
 @layer base {
   img {
-    display: inline;
+    display: initial;
   }
 }

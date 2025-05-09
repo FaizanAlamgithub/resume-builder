@@ -6,6 +6,8 @@ import ExperienceForm from "./components/FormExperience";
 import SkillsForm from "./components/FormSkills";
 import ResumePreview from "./components/ResumePreview";
 import TemplatePreview from "./components/TemplatePreview";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -98,6 +100,8 @@ function App() {
 
       <div className="container mx-auto p-4">
         <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route
             path="/personal"
             element={
